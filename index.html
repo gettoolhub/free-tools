@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="Free calculators and utilities for everyday costs, age, BMI, secure passwords and QR codes. Fast, private and easy to use." />
+  <meta name="keywords" content="unit price calculator, shrinkflation calculator, discount VAT calculator, subscription cost calculator, electricity cost calculator, fuel trip cost calculator, age calculator, BMI calculator, password generator, QR code generator" />
+  <link rel="icon" href="data:," />
+  <title>Free Online Tools Hub — Everyday Cost Calculators</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f5f7f5;
+      --paper: #ffffff;
+      --paper-2: #eef2ee;
+      --ink: #15201b;
+      --muted: #536159;
+      --line: #ccd5cf;
+      --line-strong: #9eaaa2;
+      --accent: #e85d3f;
+      --accent-ink: #421107;
+      --result: #102f24;
+      --result-ink: #effff7;
+      --good: #227650;
+      --warn: #a6402a;
+      --shadow: 0 18px 50px rgba(25, 43, 34, .09);
+      --radius-lg: 24px;
+      --radius-md: 14px;
+      --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #101512;
+        --paper: #18201b;
+        --paper-2: #202a24;
+        --ink: #f0f5f1;
+        --muted: #aab7af;
+        --line: #344139;
+        --line-strong: #56645b;
+        --accent: #ff7a5c;
+        --accent-ink: #210703;
+        --result: #d9f7e9;
+        --result-ink: #0c241a;
+        --good: #75d2a4;
+        --warn: #ff9a82;
+        --shadow: 0 18px 50px rgba(0, 0, 0, .26);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .hero {
+      padding: 54px 0 34px;
+      display: grid;
+      grid-template-columns: 1.45fr .75fr;
+      gap: 44px;
+      align-items: end;
+      border-bottom: 1px solid var(--line);
+    }
+    .kicker {
+      color: var(--accent);
+      font: 600 13px/1.2 var(--font-mono);
+      letter-spacing: .04em;
+      margin-bottom: 16px;
+    }
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(42px, 7vw, 82px);
+      line-height: .98;
+      letter-spacing: -.055em;
+      font-weight: 800;
+    }
+    .hero-copy { margin: 18px 0 0; max-width: 680px; color: var(--muted); font-size: 18px; line-height: 1.65; }
+    .hero-aside { padding-bottom: 8px; }
+    .hero-aside strong { display: block; font-size: 15px; margin-bottom: 8px; }
+    .hero-aside p { margin: 0; color: var(--muted); line-height: 1.6; font-size: 14px; }
+    .toolbar {
+      padding: 22px 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: color-mix(in srgb, var(--bg) 90%, transparent);
+      backdrop-filter: blur(14px);
+    }
+    .searchbox { position: relative; max-width: 560px; }
+    .searchbox svg { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 19px; color: var(--muted); pointer-events: none; }
+    input, select {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: 10px;
+      padding: 11px 12px;
+      outline: none;
+      transition: border-color .16s, box-shadow .16s;
+    }
+    input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 17%, transparent); }
+    .searchbox input { padding-left: 46px; }
+    .currency { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 13px; white-space: nowrap; }
+    .currency select { width: 94px; min-height: 42px; font-weight: 700; }
+    .tool-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; padding: 8px 0 70px; }
+    .tool {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      box-shadow: var(--shadow);
+      scroll-margin-top: 94px;
+    }
+    .tool.hidden { display: none; }
+    .tool-head { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 24px; }
+    .tool-index {
+      flex: 0 0 auto;
+      width: 40px; height: 40px;
+      display: grid; place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      font: 600 12px/1 var(--font-mono);
+      color: var(--accent);
+    }
+    .tool h2 { margin: 0 0 6px; font-size: 22px; line-height: 1.18; letter-spacing: -.025em; }
+    .tool-desc { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+    .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .field.full { grid-column: 1 / -1; }
+    label { display: block; color: var(--muted); font-size: 12px; font-weight: 700; margin: 0 0 7px; }
+    .with-unit { position: relative; }
+    .with-unit input { padding-right: 48px; }
+    .unit {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--muted); font: 500 12px/1 var(--font-mono); pointer-events: none;
+    }
+    .actions { display: flex; gap: 10px; margin-top: 18px; }
+    .calculate {
+      border: 0;
+      border-radius: 10px;
+      min-height: 46px;
+      padding: 0 18px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 800;
+    }
+    .calculate:hover { filter: brightness(.95); }
+    .calculate:disabled { cursor: wait; opacity: .7; }
+    .clear {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      min-height: 46px;
+      padding: 0 15px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .result {
+      display: none;
+      margin-top: 18px;
+      padding: 18px;
+      background: var(--result);
+      color: var(--result-ink);
+      border-radius: var(--radius-md);
+    }
+    .result.show { display: block; }
+    .result-label { display: block; opacity: .7; font-size: 11px; font-weight: 700; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .06em; }
+    .result-main { display: block; font-size: 27px; font-weight: 800; letter-spacing: -.035em; line-height: 1.15; }
+    .result-detail { display: block; opacity: .78; margin-top: 7px; font-size: 12.5px; line-height: 1.5; }
+    .qr-output { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .qr-output img, .qr-output canvas { background: #fff; padding: 8px; border-radius: 6px; width: 132px !important; height: 132px !important; }
+    .strength { height: 7px; background: color-mix(in srgb, var(--result-ink) 20%, transparent); border-radius: 5px; overflow: hidden; margin-top: 12px; }
+    .strength > span { display: block; height: 100%; background: var(--accent); }
+    .empty-state { display: none; grid-column: 1/-1; padding: 70px 20px; text-align: center; color: var(--muted); }
+    .empty-state.show { display: block; }
+    .empty-state strong { display: block; color: var(--ink); font-size: 20px; margin-bottom: 8px; }
+    footer { border-top: 1px solid var(--line); padding: 24px 0 42px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 20px; }
+    .mono { font-family: var(--font-mono); }
+    @media (max-width: 760px) {
+      html { scroll-behavior: auto; }
+      body { -webkit-text-size-adjust: 100%; }
+      .wrap { width: min(100% - 24px, 600px); }
+      .hero { grid-template-columns: 1fr; gap: 24px; padding: 34px 0 26px; }
+      h1 { font-size: clamp(40px, 13vw, 58px); }
+      .hero-copy { font-size: 16px; }
+      .toolbar {
+        grid-template-columns: 1fr;
+        padding: 14px 0 18px;
+        position: static;
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+      .searchbox { max-width: none; }
+      .currency { justify-content: space-between; }
+      .tool-grid { grid-template-columns: 1fr; gap: 14px; padding-bottom: 42px; }
+      .tool {
+        padding: 20px;
+        border-radius: 18px;
+        box-shadow: none;
+        content-visibility: auto;
+        contain-intrinsic-size: 520px;
+      }
+      .fields { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      footer .wrap { flex-direction: column; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <div class="kicker">EVERYDAY VALUE CALCULATORS</div>
+        <h1 id="page-title">Know the real cost.</h1>
+        <p class="hero-copy">Ten fast tools for the questions hidden behind price tags, monthly plans and everyday decisions.</p>
+      </div>
+      <aside class="hero-aside">
+        <strong>No account. No waiting.</strong>
+        <p>Enter your numbers and get an instant answer. Calculations stay in this page and reset when you leave.</p>
+      </aside>
+    </section>
+
+    <section class="toolbar" aria-label="Tool controls">
+      <div class="searchbox">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+        <label for="tool-search" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Find a calculator</label>
+        <input id="tool-search" type="search" placeholder="Find a calculator…" autocomplete="off" />
+      </div>
+      <label class="currency" for="currency-select">Currency
+        <select id="currency-select" aria-label="Currency">
+          <option value="GBP">GBP £</option>
+          <option value="EUR">EUR €</option>
+          <option value="CAD">CAD $</option>
+          <option value="USD">USD $</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="tool-grid" id="tools" aria-label="Calculators">
+      <article class="tool" data-keywords="unit price compare grocery supermarket cheapest best value pack size">
+        <div class="tool-head"><span class="tool-index">01</span><div><h2>Unit price comparer</h2><p class="tool-desc">Find which pack gives you more for your money.</p></div></div>
+        <div class="fields">
+          <div class="field"><label for="upa">Pack A price</label><input id="upa" inputmode="decimal" placeholder="4.50" /></div>
+          <div class="field"><label for="usa">Pack A size</label><input id="usa" inputmode="decimal" placeholder="750" /></div>
+          <div class="field"><label for="upb">Pack B price</label><input id="upb" inputmode="decimal" placeholder="6.20" /></div>
+          <div class="field"><label for="usb">Pack B size</label><input id="usb" inputmode="decimal" placeholder="1200" /></div>
+        </div>
+        <div class="actions"><button class="calculate" data-calc="unit">Compare packs</button><button class="clear" type="button">Clear</button></div>
+        <div class="result" role="status" aria-live="polite"></div>
+      </article>
+
+      <article class="tool" data-keywords="shrinkflation price size package inflation product cost increase calculator">
+        <div class="tool-head"><span class="tool-index">02</span><div><h2>Shrinkflation checker</h2><p class="tool-desc">See the hidden price rise when a product gets smaller.</p></div></div>
+        <div class="fields">
+          <div class="field"><label for="sop">Old price</label><input id="sop" inputmode="decimal" placeholder="3.00" /></div>
+          <div class="field"><label for="sos">Old size</label><input id="sos" inputmode="decimal" placeholder="500" /></div>
+          <div class="field"><label for="snp">New price</label><input id="snp" inputmode="decimal" placeholder="3.20" /></div>
+          <div class="field"><label for="sns">New size (same unit)</label><input id="sns" inputmode="decimal" placeholder="450" /></div>
+        </div>
+        <div class="actions"><button class="calculate" data-calc="shrink">Check change</button><button class="clear" type="button">Clear</button></div>
+        <div class="result" role="status" aria-live="polite"></div>
+      </article>
+
+      <article class="tool" data-keywords="discount sale VAT tax final price percentage off calculator">
+        <div class="tool-head"><span class="tool-index">03</span><div><h2>Sale + VAT calculator</h2><p class="tool-desc">Work out the final checkout price after discount and tax.</p></div></div>
+        <div class="fields">
+          <div class="field"><label for="dprice">Original price</label><input id="dprice" inputmode="decimal" placeholder="120" /></div>
+          <div class="field"><label for="discount">Discount</label><div class="with-unit"><input id="discount" inputmode="decimal" placeholder="25" /><span class="unit">%</span></div></div>
+          <div class="field full"><label for="tax">VAT / sales tax</label><div class="with-unit"><input id="tax" inputmode="decimal" placeholder="20" /><span class="unit">%</span></div></div>
+        </div>
+        <div class="actions"><button class="calculate" data-calc="discount">Get final price</button><button class="clear" type="button">Clear</button></div>
+        <div class="result" role="status" aria-live="polite"></div>
+      </article>
+
+      <article class="tool" data-keywords="subscription monthly annual yearly weekly cost streaming software membership calculator">
+        <div class="tool-head"><span class="tool-index">04</span><div><h2>Subscription cost</h2><p class="tool-desc">Turn a small recurring payment into its monthly and yearly total.</p></div></div>
+        <div class="fields">
+          <div class="field"><label for="subamount">Payment amount</label><input id="subamount" inputmode="decimal" placeholder="9.99" /></div>
+          <div class="field"><label for="subperiod">Charged</label><select id="subperiod"><option value="weekly">Every week</option><option value="monthly" selected>Every month</option><option value="quarterly">Every 3 months</option><option value="yearly">Every year</option></select></div>
+        </div>
+        <div class="actions"><button class="calculate" data-calc="subscription">See true cost</button><button class="clear" type="button">Clear</button></div>
+        <div class="result" role="status" aria-live="polite"></div>
+      </article>
+
+      <article class="tool" data-keywords="electricity appliance running cost energy kwh watt power bill calculator">
+        <div class="tool-head"><span class="tool-index">05</span><div><h2>Appliance running cost</h2><p class="tool-desc">Estimate what any appliance adds to your energy bill.</p></div></div>
+        <div class="fields">
+          <div class="field"><label for="watts">Appliance power</label><div class="with-unit"><input id="watts" inputmode="decimal" placeholder="1500" /><span class="unit">W</span></div></div>
+          <div class="field"><label for="hours">Use per day</label><div class="with-unit"><input id="hours" inputmode="decimal" placeholder="2" /><span class="unit">hrs</span></div></div>
+          <div class="field"><label for="rate">Electricity rate / kWh</label><input id="rate" inputmode="decimal" placeholder="0.29" /></div>
+          <div class="field"><label for="days">Days per month</label><input id="days" inputmode="numeric" value="30" /></div>
+        </div>
+        <div class="actions"><button class="calculate" data-calc="energy">Estimate cost</button><button class="clear" type="button">Clear</button></div>
+        <div class="result" role="status" aria-live="polite"></div>
+      </article>
+
+      <article class="tool" data-keywords="fuel trip journey petrol diesel gas mileage mpg litre driving cost calculator">
+        <div class="tool-head"><span class="tool-index">06</span><div><h2>Fuel trip cost</h2><p class="tool-desc">Estimate fuel needed and cost for a journey.</p></div></div>
+        <div class="fields">
+          <div class="field"><label for="distance">Distance</label><div class="with-unit"><input id="distance" inputmode="decimal" placeholder="240" /><span class="unit">km</span></div></div>
+          <div class="field"><label for="consumption">Consumption</label><div class="with-unit"><input id="consumption" inputmode="decimal" placeholder="6.5" /><span class="unit">L/100</span></div></div>
+          <div class="field full"><label for="fuelprice">Fuel price per litre</label><input id="fuelprice" inputmode="decimal" placeholder="1.65" /></div>
+        </div>
+        <div class="actions"><button class="calculate" data-calc="fuel">Estimate trip</button><button class="clear" type="button">Clear</button></div>
+        <div class="result" role="status" aria-live="polite"></div>
+      </article>
+      <article class="tool" data-keywords="age birthday date years months days exact age calculator">
+        <div class="tool-head"><span class="tool-index">07</span><div><h2>Exact age calculator</h2><p class="tool-desc">Find your age in years, months and days on any date.</p></div></div>
+        <div class="fields">
+          <div class="field"><label for="birthdate">Date of birth</label><input id="birthdate" type="date" /></div>
+          <div class="field"><label for="agedate">Age on date</label><input id="agedate" type="date" /></div>
+        </div>
+        <div class="actions"><button class="calculate" data-calc="age">Calculate age</button><button class="clear" type="button">Clear</button></div>
+        <div class="result" role="status" aria-live="polite"></div>
+      </article>
+
+      <article class="tool" data-keywords="BMI body mass index healthy weight height kilograms pounds calculator">
+        <div class="tool-head"><span class="tool-index">08</span><div><h2>BMI calculator</h2><p class="tool-desc">Calculate body mass index from metric measurements.</p></div></div>
+        <div class="fields">
+          <div class="field"><label for="heightcm">Height</label><div class="with-unit"><input id="heightcm" inputmode="decimal" placeholder="175" /><span class="unit">cm</span></div></div>
+          <div class="field"><label for="weightkg">Weight</label><div class="with-unit"><input id="weightkg" inputmode="decimal" placeholder="70" /><span class="unit">kg</span></div></div>
+        </div>
+        <div class="actions"><button class="calculate" data-calc="bmi">Calculate BMI</button><button class="clear" type="button">Clear</button></div>
+        <div class="result" role="status" aria-live="polite"></div>
+      </article>
+
+      <article class="tool" data-keywords="password generator random secure strong characters symbols privacy">
+        <div class="tool-head"><span class="tool-index">09</span><div><h2>Password generator</h2><p class="tool-desc">Create a strong random password without sending it anywhere.</p></div></div>
+        <div class="fields">
+          <div class="field"><label for="passlength">Password length</label><input id="passlength" type="number" min="8" max="64" value="20" /></div>
+          <div class="field"><label for="passsymbols">Include symbols</label><select id="passsymbols"><option value="yes" selected>Yes</option><option value="no">No</option></select></div>
+        </div>
+        <div class="actions"><button class="calculate" data-calc="password">Generate password</button><button class="clear" type="button">Clear</button></div>
+        <div class="result" role="status" aria-live="polite"></div>
+      </article>
+
+      <article class="tool" data-keywords="QR code generator text website link URL free">
+        <div class="tool-head"><span class="tool-index">10</span><div><h2>QR code generator</h2><p class="tool-desc">Turn a link or short text into a scannable QR code.</p></div></div>
+        <div class="fields">
+          <div class="field full"><label for="qrtext">Link or text</label><input id="qrtext" placeholder="https://example.com" /></div>
+        </div>
+        <div class="actions"><button class="calculate" data-calc="qr">Create QR code</button><button class="clear" type="button">Clear</button></div>
+        <div class="result" role="status" aria-live="polite"></div>
+      </article>
+
+      <div class="empty-state" id="empty"><strong>No matching tool</strong>Try “fuel”, “VAT”, “age”, “password” or “QR”.</div>
+    </section>
+  </main>
+  <footer><div class="wrap"><span>Results are estimates. Check provider rates and tax rules before making a financial decision.</span><span class="mono">10 tools · free to use</span></div></footer>
+
+  <script>
+    (function () {
+      var currency = document.getElementById('currency-select');
+      var search = document.getElementById('tool-search');
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.tool'));
+      var empty = document.getElementById('empty');
+
+      function num(id) {
+        var value = document.getElementById(id).value.trim().replace(/,/g, '.');
+        return value === '' ? NaN : Number(value);
+      }
+      function valid(values, allowZero) {
+        return values.every(function (v) { return Number.isFinite(v) && (allowZero ? v >= 0 : v > 0); });
+      }
+      function money(value) {
+        try { return new Intl.NumberFormat('en', { style: 'currency', currency: currency.value, maximumFractionDigits: 2 }).format(value); }
+        catch (e) { return value.toFixed(2) + ' ' + currency.value; }
+      }
+      function percent(value) { return Math.abs(value).toFixed(1) + '%'; }
+      function show(button, label, main, detail) {
+        var box = button.closest('.tool').querySelector('.result');
+        box.innerHTML = '<span class="result-label">' + label + '</span><span class="result-main">' + main + '</span><span class="result-detail">' + detail + '</span>';
+        box.classList.add('show');
+      }
+      function error(button, text) { show(button, 'Check your numbers', 'Not enough information', text); }
+
+      var qrLibraryPromise = null;
+      function loadQrLibrary() {
+        if (typeof QRCode !== 'undefined') return Promise.resolve();
+        if (qrLibraryPromise) return qrLibraryPromise;
+        qrLibraryPromise = new Promise(function (resolve, reject) {
+          var script = document.createElement('script');
+          var timer = window.setTimeout(function () {
+            reject(new Error('QR library timed out'));
+          }, 8000);
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+          script.async = true;
+          script.onload = function () {
+            window.clearTimeout(timer);
+            if (typeof QRCode !== 'undefined') resolve();
+            else reject(new Error('QR library unavailable'));
+          };
+          script.onerror = function () {
+            window.clearTimeout(timer);
+            reject(new Error('QR library failed to load'));
+          };
+          document.head.appendChild(script);
+        });
+        return qrLibraryPromise;
+      }
+
+      document.addEventListener('click', function (event) {
+        var button = event.target.closest('button');
+        if (!button) return;
+        if (button.classList.contains('clear')) {
+          var card = button.closest('.tool');
+          Array.prototype.forEach.call(card.querySelectorAll('input'), function (input) { input.value = input.id === 'days' ? '30' : ''; });
+          card.querySelector('.result').classList.remove('show');
+          return;
+        }
+        var type = button.getAttribute('data-calc');
+        if (!type) return;
+
+        if (type === 'unit') {
+          var upa = num('upa'), usa = num('usa'), upb = num('upb'), usb = num('usb');
+          if (!valid([upa, usa, upb, usb])) return error(button, 'Enter positive prices and pack sizes for both options.');
+          var a = upa / usa, b = upb / usb, winner = a === b ? 'Both cost the same' : (a < b ? 'Pack A is better value' : 'Pack B is better value');
+          var saving = Math.abs(a - b) / Math.max(a, b) * 100;
+          show(button, 'Best value', winner, 'A: ' + money(a) + ' per unit · B: ' + money(b) + ' per unit' + (a === b ? '' : ' · ' + percent(saving) + ' cheaper per unit'));
+        }
+        if (type === 'shrink') {
+          var sop = num('sop'), sos = num('sos'), snp = num('snp'), sns = num('sns');
+          if (!valid([sop, sos, snp, sns])) return error(button, 'Enter positive old and new prices and sizes. Use the same size unit.');
+          var oldUnit = sop / sos, newUnit = snp / sns, change = (newUnit / oldUnit - 1) * 100;
+          var direction = change > 0 ? 'more expensive per unit' : change < 0 ? 'cheaper per unit' : 'the same per unit';
+          show(button, 'Effective price change', percent(change), 'The new pack is ' + direction + '. Old: ' + money(oldUnit) + ' per unit · New: ' + money(newUnit) + ' per unit.');
+        }
+        if (type === 'discount') {
+          var price = num('dprice'), disc = num('discount'), tax = num('tax');
+          if (!valid([price]) || !valid([disc, tax], true) || disc > 100) return error(button, 'Enter a positive price, a discount from 0–100%, and a tax rate of 0% or more.');
+          var sale = price * (1 - disc / 100), taxAmount = sale * tax / 100, finalPrice = sale + taxAmount;
+          show(button, 'Final checkout price', money(finalPrice), 'Sale price: ' + money(sale) + ' · Tax: ' + money(taxAmount) + ' · Discount saved: ' + money(price - sale));
+        }
+        if (type === 'subscription') {
+          var amount = num('subamount'), period = document.getElementById('subperiod').value;
+          if (!valid([amount])) return error(button, 'Enter a positive recurring payment amount.');
+          var yearly = period === 'weekly' ? amount * 52 : period === 'monthly' ? amount * 12 : period === 'quarterly' ? amount * 4 : amount;
+          show(button, 'Yearly cost', money(yearly), 'Average per month: ' + money(yearly / 12) + ' · Average per week: ' + money(yearly / 52));
+        }
+        if (type === 'energy') {
+          var watts = num('watts'), hours = num('hours'), rate = num('rate'), days = num('days');
+          if (!valid([watts, hours, rate, days]) || hours > 24 || days > 31) return error(button, 'Enter positive values. Hours must be 24 or less and days must be 31 or less.');
+          var dailyKwh = watts / 1000 * hours, monthly = dailyKwh * days * rate, annual = dailyKwh * 365 * rate;
+          show(button, 'Estimated monthly cost', money(monthly), dailyKwh.toFixed(2) + ' kWh per day · About ' + money(annual) + ' per year at the rate entered.');
+        }
+        if (type === 'fuel') {
+          var distance = num('distance'), consumption = num('consumption'), fuelprice = num('fuelprice');
+          if (!valid([distance, consumption, fuelprice])) return error(button, 'Enter a positive distance, fuel consumption and price per litre.');
+          var litres = distance * consumption / 100, cost = litres * fuelprice;
+          show(button, 'Estimated trip cost', money(cost), litres.toFixed(1) + ' litres for ' + distance.toLocaleString() + ' km · ' + money(cost / distance) + ' per km.');
+        }
+        if (type === 'age') {
+          var birthValue = document.getElementById('birthdate').value;
+          var onValue = document.getElementById('agedate').value;
+          if (!birthValue || !onValue) return error(button, 'Choose both a date of birth and a comparison date.');
+          var birth = new Date(birthValue + 'T12:00:00'), onDate = new Date(onValue + 'T12:00:00');
+          if (birth > onDate) return error(button, 'The date of birth must be before the comparison date.');
+          var years = onDate.getFullYear() - birth.getFullYear();
+          var months = onDate.getMonth() - birth.getMonth();
+          var daysOld = onDate.getDate() - birth.getDate();
+          if (daysOld < 0) { months -= 1; daysOld += new Date(onDate.getFullYear(), onDate.getMonth(), 0).getDate(); }
+          if (months < 0) { years -= 1; months += 12; }
+          var totalDays = Math.floor((onDate - birth) / 86400000);
+          show(button, 'Exact age', years + ' years, ' + months + ' months, ' + daysOld + ' days', totalDays.toLocaleString() + ' total days between the two dates.');
+        }
+        if (type === 'bmi') {
+          var height = num('heightcm'), weight = num('weightkg');
+          if (!valid([height, weight])) return error(button, 'Enter a positive height in centimetres and weight in kilograms.');
+          var bmi = weight / Math.pow(height / 100, 2);
+          var category = bmi < 18.5 ? 'Below the standard range' : bmi < 25 ? 'Within the standard range' : bmi < 30 ? 'Above the standard range' : 'Well above the standard range';
+          show(button, 'Body mass index', bmi.toFixed(1), category + '. BMI is a screening measure, not a diagnosis.');
+        }
+        if (type === 'password') {
+          var length = Number(document.getElementById('passlength').value);
+          if (!Number.isInteger(length) || length < 8 || length > 64) return error(button, 'Choose a password length from 8 to 64 characters.');
+          var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+          if (document.getElementById('passsymbols').value === 'yes') chars += '!@#$%^&*_-+=';
+          var random = new Uint32Array(length); crypto.getRandomValues(random);
+          var password = Array.prototype.map.call(random, function (n) { return chars[n % chars.length]; }).join('');
+          var score = Math.min(100, Math.round(length / 24 * 100));
+          show(button, 'Generated password', '<span class="mono" style="font-size:clamp(16px,3vw,23px);word-break:break-all">' + password + '</span>', 'Generated on your device.<div class="strength"><span style="width:' + score + '%"></span></div>');
+        }
+        if (type === 'qr') {
+          var qrText = document.getElementById('qrtext').value.trim();
+          if (!qrText) return error(button, 'Enter a link or short text to encode.');
+          var originalLabel = button.textContent;
+          button.disabled = true;
+          button.textContent = 'Preparing…';
+          show(button, 'Preparing QR code', 'Loading the generator', 'The QR tool loads only when you use it, keeping the page quick to open.');
+          loadQrLibrary().then(function () {
+            var box = button.closest('.tool').querySelector('.result');
+            box.innerHTML = '<div class="qr-output"><div id="qr-canvas"></div><div><span class="result-label">QR code ready</span><span class="result-detail">Scan to open or read the content you entered.</span></div></div>';
+            box.classList.add('show');
+            new QRCode(document.getElementById('qr-canvas'), { text: qrText, width: 132, height: 132, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+            button.disabled = false;
+            button.textContent = originalLabel;
+          }).catch(function () {
+            qrLibraryPromise = null;
+            button.disabled = false;
+            button.textContent = originalLabel;
+            error(button, 'The QR tool could not load. Check your connection and try again.');
+          });
+        }
+      });
+
+      search.addEventListener('input', function () {
+        var q = search.value.trim().toLowerCase(), visible = 0;
+        cards.forEach(function (card) {
+          var text = (card.textContent + ' ' + card.getAttribute('data-keywords')).toLowerCase();
+          var match = !q || text.indexOf(q) !== -1;
+          card.classList.toggle('hidden', !match);
+          if (match) visible += 1;
+        });
+        empty.classList.toggle('show', visible === 0);
+      });
+
+      currency.addEventListener('change', function () {
+        Array.prototype.forEach.call(document.querySelectorAll('.result.show'), function (box) { box.classList.remove('show'); });
+      });
+    })();
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Free Online Tools Hub","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free everyday calculators and utilities for costs, age, BMI, passwords and QR codes."}</script>
+</body>
+</html>
