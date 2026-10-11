@@ -188,6 +188,52 @@
     .empty-state { display: none; grid-column: 1/-1; padding: 70px 20px; text-align: center; color: var(--muted); }
     .empty-state.show { display: block; }
     .empty-state strong { display: block; color: var(--ink); font-size: 20px; margin-bottom: 8px; }
+    .section-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 0 2px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+      text-decoration: none;
+      border-radius: 9px;
+    }
+    .section-nav a:hover, .section-nav a:focus-visible { color: var(--ink); background: var(--paper-2); outline: none; }
+    .guides { padding: 4px 0 76px; scroll-margin-top: 86px; }
+    .guides-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, .62fr);
+      gap: 38px;
+      align-items: end;
+      padding: 34px 0 26px;
+      border-top: 1px solid var(--line-strong);
+    }
+    .guides-head h2 { margin: 0; font-size: clamp(32px, 4.8vw, 52px); line-height: 1; letter-spacing: -.045em; }
+    .guides-head p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .guides-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 28px; }
+    .guide {
+      min-width: 0;
+      padding: 24px 2px 0;
+      border-top: 1px solid var(--line);
+      scroll-margin-top: 84px;
+    }
+    .guide-number { display: block; margin-bottom: 12px; color: var(--accent); font: 600 12px/1.2 var(--font-mono); }
+    .guide h3 { margin: 0 0 16px; font-size: 27px; line-height: 1.13; letter-spacing: -.035em; }
+    .guide h4 { margin: 22px 0 8px; font-size: 16px; line-height: 1.3; }
+    .guide p, .guide li { color: var(--muted); font-size: 14px; line-height: 1.72; }
+    .guide p { margin: 0 0 12px; }
+    .guide ol, .guide ul { margin: 0 0 14px; padding-left: 21px; }
+    .guide li { margin: 0 0 6px; padding-left: 3px; }
+    .guide strong { color: var(--ink); }
+    .guide-link { display: inline-flex; margin-top: 5px; color: var(--ink); font-size: 13px; font-weight: 800; text-underline-offset: 4px; }
     .site-info {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -227,6 +273,13 @@
       .searchbox { max-width: none; }
       .currency { justify-content: space-between; }
       .tool-grid { grid-template-columns: 1fr; gap: 14px; padding-bottom: 42px; }
+      .section-nav { padding-top: 10px; }
+      .section-nav a { flex: 1; justify-content: center; }
+      .guides { padding-bottom: 52px; }
+      .guides-head { grid-template-columns: 1fr; gap: 14px; padding: 28px 0 22px; }
+      .guides-grid { grid-template-columns: 1fr; gap: 30px; }
+      .guide { padding-top: 20px; }
+      .guide h3 { font-size: 24px; }
       .tool {
         padding: 20px;
         border-radius: 18px;
@@ -258,6 +311,12 @@
       </aside>
     </section>
 
+    <nav class="section-nav" aria-label="Page sections">
+      <a href="#tools">Calculators</a>
+      <a href="#guides">How-to guides</a>
+      <a href="#about">About</a>
+    </nav>
+
     <section class="toolbar" aria-label="Tool controls">
       <div class="searchbox">
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
@@ -275,7 +334,7 @@
     </section>
 
     <section class="tool-grid" id="tools" aria-label="Calculators">
-      <article class="tool" data-keywords="unit price compare grocery supermarket cheapest best value pack size">
+      <article class="tool" id="unit-price-tool" data-keywords="unit price compare grocery supermarket cheapest best value pack size">
         <div class="tool-head"><span class="tool-index">01</span><div><h2>Unit price comparer</h2><p class="tool-desc">Compare two pack sizes by their cost per unit, gram, millilitre or item. See which option is cheaper and the percentage you save.</p></div></div>
         <div class="fields">
           <div class="field"><label for="upa">Pack A price</label><input id="upa" inputmode="decimal" placeholder="4.50" /></div>
@@ -287,7 +346,7 @@
         <div class="result" role="status" aria-live="polite"></div>
       </article>
 
-      <article class="tool" data-keywords="shrinkflation price size package inflation product cost increase calculator">
+      <article class="tool" id="shrinkflation-tool" data-keywords="shrinkflation price size package inflation product cost increase calculator">
         <div class="tool-head"><span class="tool-index">02</span><div><h2>Shrinkflation checker</h2><p class="tool-desc">Measure the real price change when a product shrinks or changes price. Compare the old and new cost per unit to reveal hidden inflation.</p></div></div>
         <div class="fields">
           <div class="field"><label for="sop">Old price</label><input id="sop" inputmode="decimal" placeholder="3.00" /></div>
@@ -352,7 +411,7 @@
         <div class="result" role="status" aria-live="polite"></div>
       </article>
 
-      <article class="tool" data-keywords="BMI body mass index healthy weight height kilograms pounds calculator">
+      <article class="tool" id="bmi-tool" data-keywords="BMI body mass index healthy weight height kilograms pounds calculator">
         <div class="tool-head"><span class="tool-index">08</span><div><h2>BMI calculator</h2><p class="tool-desc">Calculate body mass index from height in centimetres and weight in kilograms. Use the category as a general screening guide, not a medical diagnosis.</p></div></div>
         <div class="fields">
           <div class="field"><label for="heightcm">Height</label><div class="with-unit"><input id="heightcm" inputmode="decimal" placeholder="175" /><span class="unit">cm</span></div></div>
@@ -362,7 +421,7 @@
         <div class="result" role="status" aria-live="polite"></div>
       </article>
 
-      <article class="tool" data-keywords="password generator random secure strong characters symbols privacy">
+      <article class="tool" id="password-tool" data-keywords="password generator random secure strong characters symbols privacy">
         <div class="tool-head"><span class="tool-index">09</span><div><h2>Password generator</h2><p class="tool-desc">Generate a strong random password from 8 to 64 characters, with optional symbols. It is created on your device and is never submitted to this website.</p></div></div>
         <div class="fields">
           <div class="field"><label for="passlength">Password length</label><input id="passlength" type="number" min="8" max="64" value="20" /></div>
@@ -382,6 +441,94 @@
       </article>
 
       <div class="empty-state" id="empty"><strong>No matching tool</strong>Try “fuel”, “VAT”, “age”, “password” or “QR”.</div>
+    </section>
+
+    <section class="guides" id="guides" aria-labelledby="guides-title">
+      <header class="guides-head">
+        <h2 id="guides-title">Practical guides</h2>
+        <p>Clear explanations for using the calculators well, understanding the results and making more informed everyday decisions.</p>
+      </header>
+
+      <div class="guides-grid">
+        <article class="guide" id="guide-unit-price">
+          <span class="guide-number">GUIDE 01 · GROCERY SAVINGS</span>
+          <h3>How to Calculate Unit Price and Save Money on Groceries</h3>
+          <p>A shelf price tells you what a pack costs, but not how much product you receive for your money. Unit price solves that problem by converting different pack sizes into one comparable figure, such as cost per gram, litre or item. It is especially useful when a family pack, promotion and store-brand option all look different.</p>
+          <h4>The unit price formula</h4>
+          <p>Divide the pack price by the quantity in the pack: <strong>unit price = price ÷ quantity</strong>. A £4.50 bag containing 750 grams costs £0.006 per gram, or £0.60 per 100 grams. A £6.20 bag containing 1,200 grams costs about £0.00517 per gram, or roughly £0.52 per 100 grams. The second pack has the higher shelf price, but the lower unit price.</p>
+          <h4>Compare packs in four steps</h4>
+          <ol>
+            <li>Choose two products that are genuinely interchangeable.</li>
+            <li>Convert both quantities to the same unit. Do not compare grams with kilograms until you convert one.</li>
+            <li>Divide each price by its quantity, or enter both packs in the comparer.</li>
+            <li>Select the lower result, then check whether you will use the larger pack before it expires.</li>
+          </ol>
+          <h4>When the cheapest unit price is not the best buy</h4>
+          <p>A lower unit price can still waste money if the food spoils, the pack strains your budget or the quality is unsuitable. Promotions such as “three for two” only save money when you planned to buy that quantity. Compare drained weight for foods packed in liquid, sheet count for paper products and number of washes for detergent. For concentrated products, compare the usable servings rather than bottle size.</p>
+          <p>Keep a short list of normal unit prices for items you buy often. It makes temporary discounts easier to judge and helps you notice when a pack becomes smaller. Use the same currency and quantity unit throughout your comparison for an accurate result.</p>
+          <a class="guide-link" href="#unit-price-tool">Use the unit price comparer →</a>
+        </article>
+
+        <article class="guide" id="guide-shrinkflation">
+          <span class="guide-number">GUIDE 02 · SMART SHOPPING</span>
+          <h3>What Is Shrinkflation? How to Spot It and Fight Back</h3>
+          <p>Shrinkflation happens when a manufacturer reduces the quantity in a package while keeping the price similar, or raises the price while also making the package smaller. The change can be easy to miss because the box, bottle or branding may look almost identical. What matters is the price per unit, not the number printed on the shelf label.</p>
+          <h4>How to measure the real price change</h4>
+          <p>First calculate the old unit price and the new unit price. Then use: <strong>(new unit price ÷ old unit price − 1) × 100</strong>. Suppose a 500-gram product cost £3.00 and the replacement is 450 grams for £3.20. The old cost was £0.006 per gram; the new cost is about £0.00711. That is an effective increase of roughly 18.5%, even though the shelf price rose by only 6.7%.</p>
+          <h4>Signs to check on the package</h4>
+          <ul>
+            <li>A familiar container feels lighter or has more empty space.</li>
+            <li>The number of portions, sheets, capsules or washes has fallen.</li>
+            <li>Words such as “new look” appear alongside a changed net weight.</li>
+            <li>A multi-pack contains fewer items, or each item is smaller.</li>
+          </ul>
+          <h4>Practical ways to respond</h4>
+          <p>Read the quantity every time you buy a regular product and take a quick photo of the label if you want a record. Compare unit prices across brands and sizes rather than automatically choosing your usual pack. Store brands, refill packs or a competing product may offer better value, but check ingredients and quality as well as cost.</p>
+          <p>Buying in bulk can help only when the per-unit saving is real and you can store and use the product. If a smaller pack prevents waste, it may still be the sensible choice. The goal is not simply to avoid every reduced package; it is to see the effective price clearly and decide whether the product still earns a place in your basket.</p>
+          <a class="guide-link" href="#shrinkflation-tool">Check a product for shrinkflation →</a>
+        </article>
+
+        <article class="guide" id="guide-bmi">
+          <span class="guide-number">GUIDE 03 · HEALTH BASICS</span>
+          <h3>BMI Explained: What Your Body Mass Index Really Means</h3>
+          <p>Body mass index, or BMI, is a screening measure that relates weight to height. It gives a quick numerical estimate that can help describe weight ranges across adult populations. It does not directly measure body fat, fitness or health, so the result should be treated as one piece of information rather than a diagnosis.</p>
+          <h4>How BMI is calculated</h4>
+          <p>For metric measurements, use: <strong>BMI = weight in kilograms ÷ height in metres squared</strong>. Someone who weighs 70 kilograms and is 1.75 metres tall has a BMI of about 22.9. Entering height as 175 centimetres requires converting it to 1.75 metres before squaring it. A calculator handles that conversion automatically.</p>
+          <p>Common adult screening ranges describe a BMI below 18.5 as below the standard range, 18.5 to 24.9 as within the standard range, 25 to 29.9 as above it, and 30 or more as well above it. These labels are broad categories, not personal medical conclusions.</p>
+          <h4>What BMI cannot tell you</h4>
+          <p>BMI cannot distinguish muscle from fat or show where fat is carried. A muscular athlete may have a higher result without having excess body fat. Age, pregnancy, body composition and some health conditions can also change how useful the number is. Adult thresholds are not designed for children and teenagers, whose growth is assessed differently.</p>
+          <h4>How to use your result responsibly</h4>
+          <ul>
+            <li>Measure height and weight accurately, without shoes or heavy clothing.</li>
+            <li>Look at trends over time instead of reacting to one reading.</li>
+            <li>Consider other context, including waist measurement, activity, sleep and medical history.</li>
+            <li>Speak with a qualified health professional if the result concerns you or you are planning a major change to diet or exercise.</li>
+          </ul>
+          <p>BMI is most useful as a starting point for a wider conversation. It can flag a range worth exploring, but it cannot explain the cause, identify an illness or prescribe a healthy target for a particular person.</p>
+          <a class="guide-link" href="#bmi-tool">Calculate your BMI →</a>
+        </article>
+
+        <article class="guide" id="guide-password">
+          <span class="guide-number">GUIDE 04 · ONLINE SECURITY</span>
+          <h3>How to Create a Strong Password That Hackers Can't Crack</h3>
+          <p>No password is literally impossible to crack, but a long, random and unique password can make an attack impractical. The biggest risks are reused passwords, predictable patterns and credentials exposed by another service. A strong password works best as part of a wider security routine.</p>
+          <h4>Prioritise length and randomness</h4>
+          <p>Aim for at least 16 characters when a website allows it. Random characters created by a password generator are harder to guess than a name followed by a birth year, keyboard pattern or simple substitution such as replacing “a” with “@”. A long passphrase made from several unrelated words can also be strong when it is genuinely unpredictable.</p>
+          <h4>Use a different password for every account</h4>
+          <p>Reusing one good password turns a single data breach into a key for several accounts. Give every login its own password and store them in a reputable password manager. The manager can generate and fill complex credentials, leaving you to remember one strong master password. Never send passwords by email or messaging, and do not save them in an unprotected note.</p>
+          <h4>Add another layer of protection</h4>
+          <ul>
+            <li>Turn on multi-factor authentication, preferably with an authenticator app or security key when available.</li>
+            <li>Keep recovery email addresses and phone numbers current.</li>
+            <li>Watch for phishing pages and check the real website address before signing in.</li>
+            <li>Change a password promptly if a service reports a breach or you entered it on a suspicious page.</li>
+          </ul>
+          <h4>A practical password checklist</h4>
+          <p>Before using a password, ask whether it is long, random, unique and stored safely. Avoid personal details, common phrases and minor variations of an old password. Security questions should also use answers that cannot be found on social media; they can be stored in your password manager like any other credential.</p>
+          <p>The generator on this page creates passwords in your browser. Choose 20 or more characters with symbols when the service accepts them, then move the result directly into your password manager. Strong credentials reduce risk, while multi-factor authentication limits the damage if one is ever exposed.</p>
+          <a class="guide-link" href="#password-tool">Generate a strong password →</a>
+        </article>
+      </div>
     </section>
 
     <section class="site-info" aria-label="Site information">
@@ -436,7 +583,7 @@
       </section>
     </section>
   </main>
-  <footer><div class="wrap"><span>Results are estimates. Check provider rates and tax rules before making a financial decision.</span><span class="footer-meta"><a href="#privacy">Privacy Policy</a><a href="#terms">Terms</a><a href="#about">About</a><a href="#contact">Contact</a><span class="mono">10 tools · free to use</span></span></div></footer>
+  <footer><div class="wrap"><span>Results are estimates. Check provider rates and tax rules before making a financial decision.</span><span class="footer-meta"><a href="#guides">Guides</a><a href="#privacy">Privacy Policy</a><a href="#terms">Terms</a><a href="#about">About</a><a href="#contact">Contact</a><span class="mono">10 tools · 4 guides</span></span></div></footer>
 
   <script>
     (function () {
