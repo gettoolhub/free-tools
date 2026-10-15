@@ -369,7 +369,7 @@
         <div class="result" role="status" aria-live="polite"></div>
       </article>
 
-      <article class="tool" data-keywords="subscription monthly annual yearly weekly cost streaming software membership calculator">
+      <article class="tool" id="subscription-tool" data-keywords="subscription monthly annual yearly weekly cost streaming software membership calculator">
         <div class="tool-head"><span class="tool-index">04</span><div><h2>Subscription cost</h2><p class="tool-desc">Convert a weekly, monthly, quarterly or annual subscription into its true yearly cost. You will also see comparable monthly and weekly averages.</p></div></div>
         <div class="fields">
           <div class="field"><label for="subamount">Payment amount</label><input id="subamount" inputmode="decimal" placeholder="9.99" /></div>
@@ -528,6 +528,47 @@
           <p>The generator on this page creates passwords in your browser. Choose 20 or more characters with symbols when the service accepts them, then move the result directly into your password manager. Strong credentials reduce risk, while multi-factor authentication limits the damage if one is ever exposed.</p>
           <a class="guide-link" href="#password-tool">Generate a strong password →</a>
         </article>
+
+        <article class="guide" id="guide-discount-vat">
+          <span class="guide-number">GUIDE 05 · SALE SAVINGS</span>
+          <h3>Sale Price Math: How Discounts and VAT Really Work</h3>
+          <p>A “25% off” sign looks simple, but the final amount you pay depends on the order in which the discount and the tax are applied, and on whether the shelf price already includes VAT. In the UK and most of Europe, displayed consumer prices include VAT, while in parts of Canada and the US the tax is added at the till. Knowing which convention applies keeps the mental maths honest.</p>
+          <h4>The basic discount formula</h4>
+          <p>Multiply the original price by one minus the discount rate: <strong>sale price = price × (1 − discount ÷ 100)</strong>. A £120 jacket at 25% off costs £120 × 0.75 = £90. For a second discount applied afterwards, such as an extra 10% at checkout, multiply again: £90 × 0.90 = £81. Two stacked discounts of 25% and 10% equal 32.5% off in total, not 35%.</p>
+          <h4>Where VAT fits in</h4>
+          <p>When the price already includes VAT, the discount usually applies to the VAT-inclusive figure, and the tax office simply receives a smaller slice of the lower price. When tax is added at the till, apply the discount first and then add the tax rate: <strong>final price = discounted price × (1 + tax ÷ 100)</strong>. A $100 item at 20% off with 13% HST added at checkout costs $80 × 1.13 = $90.40.</p>
+          <h4>Common sale-price traps</h4>
+          <ul>
+            <li>A discount calculated from an inflated “was” price that the item rarely sold at.</li>
+            <li>“Up to 50% off” where only a few items carry the headline discount.</li>
+            <li>Extra checkout fees or delivery charges that quietly erase the saving.</li>
+            <li>Comparing a discounted price in one currency with a regular price in another without converting.</li>
+          </ul>
+          <h4>Judge a deal in thirty seconds</h4>
+          <p>Note the original price, apply the discount, then add any tax that is charged separately. Compare that final figure with the everyday price of the same item elsewhere rather than with the “was” price on the tag. A genuine deal survives that comparison; a marketing deal does not. Small differences compound across a wardrobe or a home refit, so the habit pays for itself.</p>
+          <a class="guide-link" href="#tools">Calculate a discount with VAT →</a>
+        </article>
+
+        <article class="guide" id="guide-subscriptions">
+          <span class="guide-number">GUIDE 06 · PERSONAL FINANCE</span>
+          <h3>The True Cost of Subscriptions: Monthly vs Annual Plans</h3>
+          <p>A £9.99 monthly payment feels harmless, but subscriptions quietly stack up. Streaming, music, cloud storage, fitness apps, news sites and software all drip-feed from the same bank account, and five or six of them can easily pass £700 a year. Annual plans usually cost less than paying month by month, but they only save money if you actually keep the service for the whole year.</p>
+          <h4>The maths behind monthly versus annual</h4>
+          <p>Start with the annual equivalent: <strong>yearly cost = monthly price × 12</strong>. A £9.99 monthly plan costs £119.88 a year. If the annual plan is £99.99, you save £19.89, or about 16.6%. A £14.99 monthly service is £179.88 a year, so an annual plan at £149.99 saves £29.89. The same comparison works in euros, dollars and Canadian dollars — the ratio is what matters, not the currency.</p>
+          <h4>The break-even trap</h4>
+          <p>Divide the annual price by the monthly price to find the break-even point. At £99.99 a year and £9.99 a month, break-even is 10 months: keep the service for the full year and the annual plan wins, but cancel after six months and you overpaid by roughly £40. Monthly billing is the cheaper choice for any service you might drop before the year is out, even though the sticker price looks higher.</p>
+          <h4>Audit your subscriptions in ten minutes</h4>
+          <ul>
+            <li>List every recurring payment: streaming, music, cloud storage, gym apps, news and software.</li>
+            <li>Convert each one to an annual figure so they are comparable.</li>
+            <li>Ask three questions: did I use it in the last 30 days, would I buy it again at full price today, and is there a free alternative?</li>
+            <li>Cancel before renewal dates — set a calendar reminder a week ahead.</li>
+            <li>Share family or household plans where offered; they are often 20–30% cheaper per person.</li>
+            <li>Pause rather than cancel seasonal services such as sports streaming.</li>
+          </ul>
+          <p>A £119.88-a-year plan abandoned after the novelty wears off is £119.88 of waste, while a £4.99-a-month app kept for four months costs only £19.96. Match the billing cycle to how you really use the service, not how you hope you will. Enter each subscription in the calculator to see its true yearly cost before the next renewal.</p>
+          <a class="guide-link" href="#subscription-tool">Work out your true subscription cost →</a>
+        </article>
       </div>
     </section>
 
@@ -583,7 +624,7 @@
       </section>
     </section>
   </main>
-  <footer><div class="wrap"><span>Results are estimates. Check provider rates and tax rules before making a financial decision.</span><span class="footer-meta"><a href="#guides">Guides</a><a href="#privacy">Privacy Policy</a><a href="#terms">Terms</a><a href="#about">About</a><a href="#contact">Contact</a><span class="mono">10 tools · 4 guides</span></span></div></footer>
+  <footer><div class="wrap"><span>Results are estimates. Check provider rates and tax rules before making a financial decision.</span><span class="footer-meta"><a href="#guides">Guides</a><a href="#privacy">Privacy Policy</a><a href="#terms">Terms</a><a href="#about">About</a><a href="#contact">Contact</a><span class="mono">10 tools · 6 guides</span></span></div></footer>
 
   <script>
     (function () {
